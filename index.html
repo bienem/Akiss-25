@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy 25th Birthday, My Akiss</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ivory: '#FAF7F2',
+                        cream: '#F4EFEA',
+                        espresso: '#231F20',
+                        muted: '#756C66',
+                        terracotta: '#C86D51',
+                        terracottaDark: '#A9543C',
+                        champagne: '#E5D9CE',
+                        goldSoft: '#F0E8DF',
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        body {
+            background-color: #FAF7F2;
+            color: #231F20;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Subtle paper texture overlay */
+        .paper-texture {
+            background-image: radial-gradient(rgba(35, 31, 32, 0.03) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        /* 3D Flip Card Styling */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1.25rem;
+        }
+
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Floating Ambient Elements */
+        @keyframes floatSlow {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-12px) rotate(5deg);
+            }
+        }
+
+        .animate-float {
+            animation: floatSlow 8s ease-in-out infinite;
+        }
+
+        .animate-float-delayed {
+            animation: floatSlow 10s ease-in-out 2s infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #FAF7F2;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #E5D9CE;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+
+<body class="paper-texture antialiased selection:bg-terracotta/20 selection:text-espresso">
+
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
+
+    <!-- Toast Notification -->
+    <div id="toast"
+        class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-espresso text-ivory text-xs sm:text-sm px-5 py-3 rounded-full shadow-xl opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-terracotta"></span>
+        <span id="toast-text">Message copied</span>
+    </div>
+
+    <!-- Main Container -->
+    <main class="max-w-3xl mx-auto px-5 sm:px-8 pt-10 pb-24 space-y-20 sm:space-y-28">
+
+        <!-- 1. HERO SECTION -->
+        <section class="relative text-center space-y-8 pt-6 sm:pt-10">
+            <!-- Ambient Decorative Rings -->
+            <div
+                class="hidden sm:block absolute -top-2 left-4 w-16 h-16 rounded-full border border-champagne/70 animate-float pointer-events-none">
+            </div>
+            <div
+                class="hidden sm:block absolute top-28 right-2 w-12 h-12 rounded-full bg-terracotta/10 animate-float-delayed pointer-events-none">
+            </div>
+
+            <div class="space-y-3">
+                <span
+                    class="inline-block px-4 py-1.5 rounded-full bg-cream border border-champagne text-xs uppercase tracking-[0.25em] text-terracotta font-medium shadow-sm">
+                    Today and Beautiful
+                </span>
+                <h1 class="font-serif text-4xl sm:text-6xl font-medium tracking-tight text-espresso leading-[1.15]">
+                    Happy 25th Birthday, <br />
+                    <span class="italic text-terracotta">My Akiss</span>
+                </h1>
+            </div>
+
+            <!-- Hero Photo Frame -->
+            <div class="relative max-w-md mx-auto">
+                <div
+                    class="p-3 sm:p-4 bg-white rounded-2xl shadow-[0_16px_45px_-15px_rgba(35,31,32,0.12)] border border-champagne">
+                    <div class="relative aspect-[4/5] w-full overflow-hidden rounded-xl bg-cream">
+                        <img id="hero-photo" src="./images/hero.jpg"
+                            onerror="this.src='https://placehold.co/800x1000/F4EFEA/C86D51?text=My+Akiss+(./images/hero.jpg)'"
+                            alt="My Akiss"
+                            class="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02]" />
+                    </div>
+                    <div class="pt-3 pb-1 px-1 flex items-center justify-between text-xs text-muted font-serif italic">
+                        <span>25 years of grace & brilliance</span>
+                        <span>✦</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Polished Romantic Love Note -->
+            <div
+                class="max-w-xl mx-auto bg-white/80 backdrop-blur-sm border border-champagne rounded-3xl p-7 sm:p-9 text-left space-y-5 shadow-sm">
+                <div class="w-8 h-px bg-terracotta/40 mb-1"></div>
+                <p class="text-sm sm:text-base leading-relaxed text-espresso/90 font-light">
+                    Happy birthday, my love. Happy birthday, my beautiful lady. Thank you for the endless blessing you
+                    have brought into my life. Even though we aren't spending today side by side, I am taking every
+                    moment of this day to celebrate you—the person who brings warmth, calm, and genuine joy into my life
+                    every single day. Watching you shine, laugh, and walk through life with such grace is my favorite
+                    privilege. May this new year bring you everything your heart desires and more.
+                </p>
+                <p class="font-serif italic text-xl text-terracotta pt-2">
+                    With love, Nyamwembe
+                </p>
+            </div>
+        </section>
+
+        <!-- 2. SOLO SPOTLIGHT PHOTO (AKISS 2) -->
+        <section class="reveal">
+            <div
+                class="bg-cream/60 border border-champagne rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 shadow-sm">
+                <div
+                    class="w-full sm:w-1/2 aspect-[4/5] rounded-2xl overflow-hidden bg-white border border-champagne shadow-sm">
+                    <img src="./images/akiss-2.jpg"
+                        onerror="this.src='https://placehold.co/800x1000/F4EFEA/C86D51?text=Akiss+(./images/akiss-2.jpg)'"
+                        alt="My Akiss Portrait" class="w-full h-full object-cover" />
+                </div>
+                <div class="w-full sm:w-1/2 space-y-3 text-center sm:text-left">
+                    <span class="text-[11px] uppercase tracking-widest text-terracotta font-semibold">Portrait
+                        Spotlight</span>
+                    <h2 class="font-serif text-3xl font-medium text-espresso">Celebrating You</h2>
+                    <p class="text-xs sm:text-sm text-muted leading-relaxed font-light">
+                        Radiant, effortless, and unforgettable. Here’s to 25 and every beautiful chapter ahead.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. REASONS I APPRECIATE YOU (FLIP CARDS) -->
+        <section class="reveal space-y-8">
+            <div class="text-center space-y-2">
+                <p class="text-xs uppercase tracking-[0.22em] text-terracotta font-medium">Small Reflections</p>
+                <h2 class="font-serif text-3xl sm:text-4xl font-medium text-espresso">Why You Mean The World To Me</h2>
+                <p class="text-xs sm:text-sm text-muted max-w-md mx-auto">Tap each card to read a small note from my
+                    heart.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5">
+                <!-- Card 1 -->
+                <div onclick="this.classList.toggle('flipped'); playSoftPluck();"
+                    class="flip-card perspective-1000 h-52 cursor-pointer select-none group">
+                    <div class="flip-card-inner">
+                        <div
+                            class="flip-card-front bg-white border border-champagne p-6 flex flex-col justify-between shadow-sm group-hover:border-terracotta/50 transition">
+                            <div class="flex items-center justify-between">
+                                <span class="font-serif italic text-terracotta text-lg">01</span>
+                                <span class="text-[10px] uppercase tracking-widest text-muted">Tap to open</span>
+                            </div>
+                            <h3 class="font-serif text-2xl font-medium text-espresso">Your Warm & Gentle Spirit</h3>
+                            <div class="w-8 h-px bg-champagne"></div>
+                        </div>
+                        <div class="flip-card-back bg-espresso text-ivory p-6 flex flex-col justify-between shadow-md">
+                            <span class="font-serif italic text-champagne text-xs">Your Warm & Gentle Spirit</span>
+                            <p class="text-xs leading-relaxed text-ivory/90 font-light">The effortless calm you bring
+                                into any room. Being around you feels like coming home.</p>
+                            <span class="text-[10px] uppercase tracking-widest text-champagne/70">Tap to close</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div onclick="this.classList.toggle('flipped'); playSoftPluck();"
+                    class="flip-card perspective-1000 h-52 cursor-pointer select-none group">
+                    <div class="flip-card-inner">
+                        <div
+                            class="flip-card-front bg-white border border-champagne p-6 flex flex-col justify-between shadow-sm group-hover:border-terracotta/50 transition">
+                            <div class="flex items-center justify-between">
+                                <span class="font-serif italic text-terracotta text-lg">02</span>
+                                <span class="text-[10px] uppercase tracking-widest text-muted">Tap to open</span>
+                            </div>
+                            <h3 class="font-serif text-2xl font-medium text-espresso">Your Radiant Smile</h3>
+                            <div class="w-8 h-px bg-champagne"></div>
+                        </div>
+                        <div class="flip-card-back bg-espresso text-ivory p-6 flex flex-col justify-between shadow-md">
+                            <span class="font-serif italic text-champagne text-xs">Your Radiant Smile</span>
+                            <p class="text-xs leading-relaxed text-ivory/90 font-light">Seeing your face light up is my
+                                absolute favorite sight in the world. It brightens everything.</p>
+                            <span class="text-[10px] uppercase tracking-widest text-champagne/70">Tap to close</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div onclick="this.classList.toggle('flipped'); playSoftPluck();"
+                    class="flip-card perspective-1000 h-52 cursor-pointer select-none group">
+                    <div class="flip-card-inner">
+                        <div
+                            class="flip-card-front bg-white border border-champagne p-6 flex flex-col justify-between shadow-sm group-hover:border-terracotta/50 transition">
+                            <div class="flex items-center justify-between">
+                                <span class="font-serif italic text-terracotta text-lg">03</span>
+                                <span class="text-[10px] uppercase tracking-widest text-muted">Tap to open</span>
+                            </div>
+                            <h3 class="font-serif text-2xl font-medium text-espresso">The Way You Care</h3>
+                            <div class="w-8 h-px bg-champagne"></div>
+                        </div>
+                        <div class="flip-card-back bg-espresso text-ivory p-6 flex flex-col justify-between shadow-md">
+                            <span class="font-serif italic text-champagne text-xs">The Way You Care</span>
+                            <p class="text-xs leading-relaxed text-ivory/90 font-light">Your genuine kindness and how
+                                deeply you value the people you love. You are a true blessing.</p>
+                            <span class="text-[10px] uppercase tracking-widest text-champagne/70">Tap to close</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div onclick="this.classList.toggle('flipped'); playSoftPluck();"
+                    class="flip-card perspective-1000 h-52 cursor-pointer select-none group">
+                    <div class="flip-card-inner">
+                        <div
+                            class="flip-card-front bg-white border border-champagne p-6 flex flex-col justify-between shadow-sm group-hover:border-terracotta/50 transition">
+                            <div class="flex items-center justify-between">
+                                <span class="font-serif italic text-terracotta text-lg">04</span>
+                                <span class="text-[10px] uppercase tracking-widest text-muted">Tap to open</span>
+                            </div>
+                            <h3 class="font-serif text-2xl font-medium text-espresso">Our Quiet Peace</h3>
+                            <div class="w-8 h-px bg-champagne"></div>
+                        </div>
+                        <div class="flip-card-back bg-espresso text-ivory p-6 flex flex-col justify-between shadow-md">
+                            <span class="font-serif italic text-champagne text-xs">Our Quiet Peace</span>
+                            <p class="text-xs leading-relaxed text-ivory/90 font-light">The simple comfort of sitting
+                                together in complete silence, knowing we are content right where we are.</p>
+                            <span class="text-[10px] uppercase tracking-widest text-champagne/70">Tap to close</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div onclick="this.classList.toggle('flipped'); playSoftPluck();"
+                    class="flip-card perspective-1000 h-52 cursor-pointer select-none group">
+                    <div class="flip-card-inner">
+                        <div
+                            class="flip-card-front bg-white border border-champagne p-6 flex flex-col justify-between shadow-sm group-hover:border-terracotta/50 transition">
+                            <div class="flex items-center justify-between">
+                                <span class="font-serif italic text-terracotta text-lg">05</span>
+                                <span class="text-[10px] uppercase tracking-widest text-muted">Tap to open</span>
+                            </div>
+                            <h3 class="font-serif text-2xl font-medium text-espresso">Your Grace & Elegance</h3>
+                            <div class="w-8 h-px bg-champagne"></div>
+                        </div>
+                        <div class="flip-card-back bg-espresso text-ivory p-6 flex flex-col justify-between shadow-md">
+                            <span class="font-serif italic text-champagne text-xs">Your Grace & Elegance</span>
+                            <p class="text-xs leading-relaxed text-ivory/90 font-light">The poise with which you handle
+                                everything in life. I admire you more than words can express.</p>
+                            <span class="text-[10px] uppercase tracking-widest text-champagne/70">Tap to close</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div onclick="this.classList.toggle('flipped'); playSoftPluck();"
+                    class="flip-card perspective-1000 h-52 cursor-pointer select-none group">
+                    <div class="flip-card-inner">
+                        <div
+                            class="flip-card-front bg-white border border-champagne p-6 flex flex-col justify-between shadow-sm group-hover:border-terracotta/50 transition">
+                            <div class="flex items-center justify-between">
+                                <span class="font-serif italic text-terracotta text-lg">06</span>
+                                <span class="text-[10px] uppercase tracking-widest text-muted">Tap to open</span>
+                            </div>
+                            <h3 class="font-serif text-2xl font-medium text-espresso">The Blessing You Are</h3>
+                            <div class="w-8 h-px bg-champagne"></div>
+                        </div>
+                        <div class="flip-card-back bg-espresso text-ivory p-6 flex flex-col justify-between shadow-md">
+                            <span class="font-serif italic text-champagne text-xs">The Blessing You Are</span>
+                            <p class="text-xs leading-relaxed text-ivory/90 font-light">Thank you for bringing so much
+                                warmth and light into my life every day. Happy 25th, my love.</p>
+                            <span class="text-[10px] uppercase tracking-widest text-champagne/70">Tap to close</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. OUR SPECIAL MEMORIES (3 FEATURED MOMENTS) -->
+        <section class="reveal space-y-10">
+            <div class="text-center space-y-2">
+                <p class="text-xs uppercase tracking-[0.22em] text-terracotta font-medium">Treasured Chapters</p>
+                <h2 class="font-serif text-3xl sm:text-4xl font-medium text-espresso">Moments Written In My Heart</h2>
+                <p class="text-xs sm:text-sm text-muted max-w-md mx-auto">Three unforgettable days we shared together.
+                </p>
+            </div>
+
+            <div class="space-y-10 sm:space-y-14">
+                <!-- Memory 1: The Day I Proposed -->
+                <div class="bg-white p-4 sm:p-5 rounded-3xl border border-champagne shadow-sm space-y-4">
+                    <div class="relative aspect-[16/10] sm:aspect-[16/9] w-full rounded-2xl overflow-hidden bg-cream">
+                        <img src="./images/proposal.jpg"
+                            onerror="this.src='https://placehold.co/900x550/F4EFEA/C86D51?text=The+Day+I+Proposed+(./images/proposal.jpg)'"
+                            alt="The Day I Proposed" class="w-full h-full object-cover" />
+                    </div>
+                    <div class="p-2 sm:p-3 space-y-1.5">
+                        <span class="text-[11px] uppercase tracking-widest text-terracotta font-semibold">Forever
+                            Moment</span>
+                        <h3 class="font-serif text-2xl sm:text-3xl font-medium text-espresso">The Day I Proposed</h3>
+                        <p class="text-sm sm:text-base italic text-terracotta font-serif">
+                            "I want to see her to be that happy always."
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Memory 2: Nature Sabbath -->
+                <div class="bg-white p-4 sm:p-5 rounded-3xl border border-champagne shadow-sm space-y-4">
+                    <div class="relative aspect-[16/10] sm:aspect-[16/9] w-full rounded-2xl overflow-hidden bg-cream">
+                        <img src="./images/nature-sabbath.jpg"
+                            onerror="this.src='https://placehold.co/900x550/F4EFEA/C86D51?text=Nature+Sabbath+(./images/nature-sabbath.jpg)'"
+                            alt="Our Nature Sabbath" class="w-full h-full object-cover" />
+                    </div>
+                    <div class="p-2 sm:p-3 space-y-1.5">
+                        <span class="text-[11px] uppercase tracking-widest text-terracotta font-semibold">Peace &
+                            Rest</span>
+                        <h3 class="font-serif text-2xl sm:text-3xl font-medium text-espresso">Our Nature Sabbath</h3>
+                        <p class="text-sm sm:text-base italic text-terracotta font-serif">
+                            "Quiet trails, fresh air, and absolute peace just walking beside you."
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Memory 3: Dinner Date -->
+                <div class="bg-white p-4 sm:p-5 rounded-3xl border border-champagne shadow-sm space-y-4">
+                    <div class="relative aspect-[16/10] sm:aspect-[16/9] w-full rounded-2xl overflow-hidden bg-cream">
+                        <img src="./images/dinner-date.jpg"
+                            onerror="this.src='https://placehold.co/900x550/F4EFEA/C86D51?text=Dinner+Date+(./images/dinner-date.jpg)'"
+                            alt="Our Dinner Date" class="w-full h-full object-cover" />
+                    </div>
+                    <div class="p-2 sm:p-3 space-y-1.5">
+                        <span class="text-[11px] uppercase tracking-widest text-terracotta font-semibold">Golden
+                            Hour</span>
+                        <h3 class="font-serif text-2xl sm:text-3xl font-medium text-espresso">Our Dinner Date</h3>
+                        <p class="text-sm sm:text-base italic text-terracotta font-serif">
+                            "Good food, effortless laughter, and my absolute favorite company."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. DEDICATED SONG SECTION (SPOTIFY) -->
+        <section class="reveal">
+            <div class="bg-cream border border-champagne rounded-3xl p-6 sm:p-9 space-y-6 shadow-sm">
+                <div class="space-y-2 text-center sm:text-left">
+                    <span class="text-xs uppercase tracking-[0.22em] text-terracotta font-medium">Dedicated To
+                        You</span>
+                    <h2 class="font-serif text-3xl font-medium text-espresso">A Song For Your Special Day</h2>
+                    <p class="text-xs sm:text-sm text-muted">Press play below or open directly in Spotify.</p>
+                </div>
+
+                <!-- Spotify Embed Frame -->
+                <div class="w-full rounded-2xl overflow-hidden border border-champagne bg-white shadow-sm">
+                    <iframe style="border-radius:12px"
+                        src="https://open.spotify.com/embed/track/3mvDG5E5xabgrSCmDt8J0T?utm_source=generator"
+                        width="100%" height="152" frameBorder="0" allowfullscreen=""
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                        loading="lazy">
+                    </iframe>
+                </div>
+
+                <div
+                    class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 border-t border-champagne/60">
+                    <button id="chime-btn" onclick="toggleChime()"
+                        class="w-full sm:w-auto px-4 py-2.5 rounded-full bg-espresso hover:bg-espresso/90 text-ivory text-xs font-medium flex items-center justify-center gap-2 transition shadow-sm">
+                        <span id="chime-icon">▶</span>
+                        <span id="chime-label">Play Gentle Chime Box</span>
+                    </button>
+
+                    <a href="https://open.spotify.com/track/3mvDG5E5xabgrSCmDt8J0T?si=3c24190c20d045d5" target="_blank"
+                        rel="noopener noreferrer"
+                        class="w-full sm:w-auto px-5 py-2.5 rounded-full bg-ivory hover:bg-white text-espresso border border-champagne text-xs font-medium flex items-center justify-center gap-2 transition shadow-sm">
+                        <span>Listen directly on Spotify</span>
+                        <svg class="w-3.5 h-3.5 text-terracotta" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. INTERACTIVE DATE INVITATION: WHEN IS THE BEAUTIFUL LADY FREE? -->
+        <section class="reveal space-y-6">
+            <div class="text-center space-y-2">
+                <span class="text-xs uppercase tracking-[0.22em] text-terracotta font-medium">Part Two Awaits</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-medium text-espresso">When Is The Beautiful Lady Free?
+                </h2>
+                <p class="text-xs sm:text-sm text-muted max-w-md mx-auto">Select your preferred day and time for our
+                    in-person birthday date!</p>
+            </div>
+
+            <div
+                class="bg-white border border-champagne rounded-3xl p-6 sm:p-9 space-y-8 shadow-[0_18px_45px_-15px_rgba(200,109,81,0.15)]">
+
+                <!-- Step 1: Select Day -->
+                <div class="space-y-3">
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-terracotta">1. Select Your
+                        Day</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <button id="opt-day-sat" onclick="selectDay('Saturday, Nov 28')"
+                            class="day-btn px-5 py-3.5 rounded-2xl border-2 border-champagne bg-ivory text-espresso text-xs sm:text-sm font-medium transition text-left flex items-center justify-between">
+                            <div>
+                                <span class="block font-semibold">Saturday, Nov 28</span>
+                                <span class="text-[11px] text-muted font-normal">Weekend celebration</span>
+                            </div>
+                            <span class="check-icon opacity-0 text-terracotta">✓</span>
+                        </button>
+
+                        <button id="opt-day-sun" onclick="selectDay('Sunday, Nov 29')"
+                            class="day-btn px-5 py-3.5 rounded-2xl border-2 border-champagne bg-ivory text-espresso text-xs sm:text-sm font-medium transition text-left flex items-center justify-between">
+                            <div>
+                                <span class="block font-semibold">Sunday, Nov 29</span>
+                                <span class="text-[11px] text-muted font-normal">Relaxed Sunday date</span>
+                            </div>
+                            <span class="check-icon opacity-0 text-terracotta">✓</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Select Experience -->
+                <div class="space-y-3">
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-terracotta">2. Select Your
+                        Time</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <button id="opt-meal-lunch" onclick="selectMeal('Late Lunch Date')"
+                            class="meal-btn px-5 py-3.5 rounded-2xl border-2 border-champagne bg-ivory text-espresso text-xs sm:text-sm font-medium transition text-left flex items-center justify-between">
+                            <div>
+                                <span class="block font-semibold">Late Lunch Date</span>
+                                <span class="text-[11px] text-muted font-normal">Sunny afternoon & relaxed vibes</span>
+                            </div>
+                            <span class="check-icon opacity-0 text-terracotta">✓</span>
+                        </button>
+
+                        <button id="opt-meal-dinner" onclick="selectMeal('Dinner Date')"
+                            class="meal-btn px-5 py-3.5 rounded-2xl border-2 border-champagne bg-ivory text-espresso text-xs sm:text-sm font-medium transition text-left flex items-center justify-between">
+                            <div>
+                                <span class="block font-semibold">Dinner Date</span>
+                                <span class="text-[11px] text-muted font-normal">Golden hour sunset & evening
+                                    meal</span>
+                            </div>
+                            <span class="check-icon opacity-0 text-terracotta">✓</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- RSVP Confirmation Card -->
+                <div class="bg-cream/80 border border-champagne rounded-2xl p-5 space-y-4 text-center">
+                    <div class="space-y-1">
+                        <span class="text-[10px] uppercase tracking-widest text-muted">Your Selection Preview</span>
+                        <p id="rsvp-summary-text" class="font-serif text-xl sm:text-2xl font-medium text-espresso">
+                            Saturday, Nov 28 • Late Lunch Date
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                        <button onclick="sendRSVPViaWhatsApp()"
+                            class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-terracotta hover:bg-terracottaDark text-ivory text-xs sm:text-sm font-medium shadow-md transition transform active:scale-95 flex items-center justify-center gap-2">
+                            <span>Send My Choice to Nyamwembe ✦</span>
+                        </button>
+                        <button onclick="copyRSVPText()"
+                            class="w-full sm:w-auto px-5 py-3.5 rounded-full bg-white hover:bg-ivory text-espresso border border-champagne text-xs font-medium transition">
+                            Copy RSVP Message
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="text-center pt-8 pb-4 space-y-2 border-t border-champagne/60">
+            <p class="font-serif italic text-2xl text-espresso">Happy 25th Birthday, <span class="text-terracotta">My
+                    Akiss</span>.</p>
+            <p class="text-[11px] text-muted tracking-wider uppercase">With love, Nyamwembe • Today & Always</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- 1. Selection State for Celebration Pass ---
+        let selectedDay = 'Saturday, Nov 28';
+        let selectedMeal = 'Late Lunch Date';
+
+        function selectDay(dayStr) {
+            selectedDay = dayStr;
+            updateSelectionUI();
+        }
+
+        function selectMeal(mealStr) {
+            selectedMeal = mealStr;
+            updateSelectionUI();
+        }
+
+        function updateSelectionUI() {
+            // Days
+            const satBtn = document.getElementById('opt-day-sat');
+            const sunBtn = document.getElementById('opt-day-sun');
+
+            if (selectedDay.includes('Nov 28')) {
+                setBtnActive(satBtn, true);
+                setBtnActive(sunBtn, false);
+            } else {
+                setBtnActive(satBtn, false);
+                setBtnActive(sunBtn, true);
+            }
+
+            // Meals
+            const lunchBtn = document.getElementById('opt-meal-lunch');
+            const dinnerBtn = document.getElementById('opt-meal-dinner');
+
+            if (selectedMeal.includes('Lunch')) {
+                setBtnActive(lunchBtn, true);
+                setBtnActive(dinnerBtn, false);
+            } else {
+                setBtnActive(lunchBtn, false);
+                setBtnActive(dinnerBtn, true);
+            }
+
+            // Summary text
+            document.getElementById('rsvp-summary-text').textContent = `${selectedDay} • ${selectedMeal}`;
+        }
+
+        function setBtnActive(btn, isActive) {
+            const check = btn.querySelector('.check-icon');
+            if (isActive) {
+                btn.classList.add('border-terracotta', 'bg-white', 'shadow-sm');
+                btn.classList.remove('border-champagne', 'bg-ivory');
+                if (check) check.classList.remove('opacity-0');
+            } else {
+                btn.classList.remove('border-terracotta', 'bg-white', 'shadow-sm');
+                btn.classList.add('border-champagne', 'bg-ivory');
+                if (check) check.classList.add('opacity-0');
+            }
+        }
+
+        function getFormattedRSVPMessage() {
+            return `Hey Nyamwembe! The birthday girl is free on ${selectedDay} for a ${selectedMeal} date ✨`;
+        }
+
+        function sendRSVPViaWhatsApp() {
+            launchConfetti();
+            const msg = encodeURIComponent(getFormattedRSVPMessage());
+            window.open(`https://wa.me/?text=${msg}`, '_blank');
+            showToast('Opening WhatsApp with your date choice!');
+        }
+
+        function copyRSVPText() {
+            const msg = getFormattedRSVPMessage();
+            const tempArea = document.createElement('textarea');
+            tempArea.value = msg;
+            document.body.appendChild(tempArea);
+            tempArea.select();
+            try {
+                document.execCommand('copy');
+                showToast('RSVP text copied!');
+            } catch (err) {
+                showToast('Could not copy text');
+            }
+            document.body.removeChild(tempArea);
+        }
+
+        // --- 2. Confetti & Audio Chime ---
+        let audioCtx = null;
+        let isChimePlaying = false;
+
+        function playSoftPluck() {
+            try {
+                if (!audioCtx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    audioCtx = new AudioContext();
+                }
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+
+                gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.05, audioCtx.currentTime + 0.03);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.35);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.4);
+            } catch (e) { }
+        }
+
+        function toggleChime() {
+            const icon = document.getElementById('chime-icon');
+            const label = document.getElementById('chime-label');
+
+            if (isChimePlaying) {
+                isChimePlaying = false;
+                icon.textContent = '▶';
+                label.textContent = 'Play Gentle Chime Box';
+                return;
+            }
+
+            isChimePlaying = true;
+            icon.textContent = '❚❚';
+            label.textContent = 'Playing Chime Melody...';
+
+            // Simple tune
+            const notes = [
+                { f: 261.63, d: 0.4 }, { f: 329.63, d: 0.4 }, { f: 392.00, d: 0.5 },
+                { f: 523.25, d: 0.8 }, { f: 440.00, d: 0.5 }, { f: 349.23, d: 0.8 }
+            ];
+
+            notes.forEach((n, i) => {
+                setTimeout(() => {
+                    if (!isChimePlaying) return;
+                    try {
+                        if (!audioCtx) {
+                            const AudioContext = window.AudioContext || window.webkitAudioContext;
+                            audioCtx = new AudioContext();
+                        }
+                        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(n.f, audioCtx.currentTime);
+
+                        gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+                        gain.gain.exponentialRampToValueAtTime(0.06, audioCtx.currentTime + 0.04);
+                        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + n.d);
+
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.start();
+                        osc.stop(audioCtx.currentTime + n.d + 0.05);
+                    } catch (e) { }
+                }, i * 500);
+            });
+
+            setTimeout(() => {
+                isChimePlaying = false;
+                icon.textContent = '▶';
+                label.textContent = 'Play Gentle Chime Box';
+            }, 3500);
+        }
+
+        function launchConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const colors = ['#C86D51', '#E5D9CE', '#231F20', '#D89A86'];
+            const particles = Array.from({ length: 70 }, () => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height - canvas.height,
+                w: Math.random() * 8 + 4,
+                h: Math.random() * 5 + 3,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                speedY: Math.random() * 3 + 2,
+                speedX: Math.random() * 2 - 1,
+                rotation: Math.random() * 360,
+                rotationSpeed: Math.random() * 4 - 2
+            }));
+
+            let frame = 0;
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.y += p.speedY;
+                    p.x += p.speedX;
+                    p.rotation += p.rotationSpeed;
+
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate((p.rotation * Math.PI) / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                    ctx.restore();
+                });
+
+                frame++;
+                if (frame < 140) requestAnimationFrame(animate);
+                else ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+            animate();
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-text').textContent = msg;
+            toast.classList.remove('opacity-0');
+            setTimeout(() => toast.classList.add('opacity-0'), 2800);
+        }
+
+        // Scroll Observer
+        window.addEventListener('DOMContentLoaded', () => {
+            updateSelectionUI();
+            const observer = new IntersectionObserver(
+                entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) entry.target.classList.add('visible');
+                    });
+                },
+                { threshold: 0.12 }
+            );
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+
+</html>
